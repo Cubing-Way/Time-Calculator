@@ -19,13 +19,31 @@ resultBtn.addEventListener('click', () => {
     const totalSeconds1 = (parseInt(input1hours) * 3600) + (parseInt(input1minutes) * 60) + parseInt(input1seconds);
     const totalSeconds2 = (parseInt(input2hours) * 3600) + (parseInt(input2minutes) * 60) + parseInt(input2seconds);
 
+    // Initialize variables to hold the result
     let resultHours, resultMinutes, resultSeconds;
+    //Get the selected operation from the dropdown
+    const operation = document.getElementById('operation').value;
+
     // Call the calcSum function to calculate the sum of the two time inputs
-    if (document.getElementById('operation').value === 'sum') {
+
+    //Sum
+    if (operation === 'sum') {
         ({ resultHours, resultMinutes, resultSeconds } = calcSum(totalSeconds1, totalSeconds2));
-    } else {
-        ({ resultHours, resultMinutes, resultSeconds } = calcDiff(totalSeconds1, totalSeconds2));
     }
+    //Diff
+    else if (operation === 'diff') {
+        ({ resultHours, resultMinutes, resultSeconds } = calcDiff(totalSeconds1, totalSeconds2));
+    } 
+    //Mult
+    else if (operation === 'mult') {
+        ({ resultHours, resultMinutes, resultSeconds } = calcMult(totalSeconds1, totalSeconds2));
+    }
+    //Div
+    else if (operation === 'div') {
+        ({ resultHours, resultMinutes, resultSeconds } = calcDiv(totalSeconds1, totalSeconds2));
+    }
+
+    // Format the result as a string
     const result = `${resultHours} hours, ${resultMinutes} minutes, ${resultSeconds} seconds`;
 
     // Display the result in the result div
@@ -57,3 +75,29 @@ function calcDiff(totalSeconds1, totalSeconds2) {
     // Return the result as an object
     return { resultHours, resultMinutes, resultSeconds };
 } 
+
+function calcMult(totalSeconds1, totalSeconds2) {
+    // Calculate the product in seconds
+    const totalSeconds = totalSeconds1 * totalSeconds2;
+
+    // Convert the total seconds back to hours, minutes, and seconds
+    const resultHours = Math.floor(totalSeconds / 3600);
+    const resultMinutes = Math.floor((totalSeconds % 3600) / 60);
+    const resultSeconds = totalSeconds % 60;
+    
+    // Return the result as an object
+    return { resultHours, resultMinutes, resultSeconds };
+}
+
+function calcDiv(totalSeconds1, totalSeconds2) {
+    // Calculate the quotient in seconds
+    const totalSeconds = totalSeconds1 / totalSeconds2;
+
+    // Convert the total seconds back to hours, minutes, and seconds
+    const resultHours = Math.floor(totalSeconds / 3600);
+    const resultMinutes = Math.floor((totalSeconds % 3600) / 60);
+    const resultSeconds = totalSeconds % 60;
+    
+    // Return the result as an object
+    return { resultHours, resultMinutes, resultSeconds };
+}
