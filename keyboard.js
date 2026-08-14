@@ -11,52 +11,6 @@ document.addEventListener("keydown", (event) => {
         // Prevents auto typing last selected num
         event.preventDefault(); 
 
-        // Input switcher
-        if (selected === "hours1") {
-            // Prevents calc looping
-            if (resultFlag) return; 
-
-            // IF reset goes back to switching inputs
-            selected = "minutes1";
-        } else if (selected === "minutes1") {
-            selected = "seconds1"
-        } else if (selected === "seconds1") {
-            selected = "hours2";
-        } else if (selected === "hours2") {
-            selected = "minutes2";
-        } else if (selected === "minutes2") {
-            selected = "seconds2";
-        } else if (selected === "seconds1") {
-            selected = "result";
-
-        } else { // Compute and process operation result
-
-            //Call the calc function
-            const result = calcResult(); 
-
-            // Display the result in the result div
-            document. getElementById('result').textContent = result;
-
-            // Resets switching
-            selected = "hours1"; 
-
-            // Sets result switching flag
-            resultFlag = true; 
-        }
-        if (resultFlag) { // Reset condition
-
-            //Clear inputs for next operation
-            document.querySelectorAll("input").forEach(input => input.value = "");
-
-           // Resets result switching flag
-            resultFlag = false
-        }
-}});
-
-document.getElementById("okBtn").addEventListener("click", () => {
-        // Prevents auto typing last selected num
-        event.preventDefault(); 
-
         // First input switching condition
         if (selected === "hours1") { 
             // Prevents calc looping
@@ -117,6 +71,72 @@ document.getElementById("okBtn").addEventListener("click", () => {
            // Resets result switching flag
             resultFlag = false
         }
+}});
+
+document.getElementById("okBtn").addEventListener("click", () => {
+    // Prevents auto typing last selected num
+    event.preventDefault(); 
+
+    // First input switching condition
+    if (selected === "hours1") { 
+        // Prevents calc looping
+        if (resultFlag) return; 
+
+        //  Reset Switches nack to first input
+        selected = "minutes1"; 
+
+    // Next switching condition
+    } else if (selected === "minutes1") { 
+
+        // Switches to next input
+        selected = "seconds1"
+
+    
+    } else if (selected === "seconds1") {
+
+        // Switches to next input
+        selected = "hours2";
+
+    } else if (selected === "hours2") {
+
+        // Switches to next input
+        selected = "minutes2";
+
+    } else if (selected === "minutes2") {
+        // Switches to next input
+        selected = "seconds2";
+
+    // Next switching condition
+    } else if (selected === "seconds1") {
+
+        // Final switch to result
+        selected = "result";
+
+    // Compute and process operation result
+    } else { 
+
+        //Call the calc function
+        const result = calcResult(); 
+
+        // Display the result in the result div
+        document. getElementById('result').textContent = result;
+
+        // Resets switching
+        selected = "hours1"; 
+
+        // Sets result switching flag
+        resultFlag = true; 
+    }
+
+    // Reset condition
+    if (resultFlag) { 
+
+        //Clear inputs for next operation
+        document.querySelectorAll("input").forEach(input => input.value = "");
+
+        // Resets result switching flag
+        resultFlag = false
+    }
 });
 
 /** 
