@@ -3,7 +3,8 @@
 // Get the result button element
 const resultBtn = document.getElementById('resultBtn');
 
-resultBtn.addEventListener('click', () => {
+function calcResult() {
+
 
     // Input values from the first time input
     const input1hours = document.getElementById('hours1').value;
@@ -46,6 +47,16 @@ resultBtn.addEventListener('click', () => {
     // Format the result as a string
     const result = `${resultHours} hours, ${resultMinutes} minutes, ${resultSeconds} seconds`;
 
+    return result;
+}
+
+
+// Compute operation result
+resultBtn.addEventListener('click', () => {
+
+    //Call the calc function
+    const result = calcResult();
+    
     // Display the result in the result div
     document.getElementById('result').textContent = result;
 });
