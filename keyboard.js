@@ -4,6 +4,27 @@
 let selected = "hours1"; // Default ffirst input
 let resultFlag = false; // Prevents calc looping
 
+    const orderArray = ["hours1", "minutes1", "seconds1", "hours2", "minutes2", "seconds2"];
+
+function next(index) {
+    return orderArray[index + 1];
+}
+
+
+orderArray.forEach((order) => {
+
+    document.getElementById(order).addEventListener("input", () => {
+
+        if (document.getElementById(order).value.length === 2) {
+
+            const index = orderArray.indexOf(order);
+
+            selected = next(index);
+        }
+    });
+
+});
+
 // Enter key event listener
 document.addEventListener("keydown", (event) => {
     if(event.key === "Enter") {
@@ -12,36 +33,7 @@ document.addEventListener("keydown", (event) => {
         event.preventDefault(); 
 
         // First input switching condition
-        if (selected === "hours1") { 
-            // Prevents calc looping
-            if (resultFlag) return; 
-
-            //  Reset Switches nack to first input
-            selected = "minutes1"; 
-
-        // Next switching condition
-        } else if (selected === "minutes1") { 
-
-            // Switches to next input
-            selected = "seconds1"
-
-        
-        } else if (selected === "seconds1") {
-
-            // Switches to next input
-            selected = "hours2";
-
-        } else if (selected === "hours2") {
-
-            // Switches to next input
-            selected = "minutes2";
-
-        } else if (selected === "minutes2") {
-            // Switches to next input
-            selected = "seconds2";
-
-        // Next switching condition
-        } else if (selected === "seconds1") {
+        if (selected === "seconds1") {
 
             // Final switch to result
             selected = "result";
@@ -73,152 +65,38 @@ document.addEventListener("keydown", (event) => {
         }
 }});
 
-document.getElementById("okBtn").addEventListener("click", () => {
-    // Prevents auto typing last selected num
-    event.preventDefault(); 
 
-    // First input switching condition
-    if (selected === "hours1") { 
-        // Prevents calc looping
-        if (resultFlag) return; 
-
-        //  Reset Switches nack to first input
-        selected = "minutes1"; 
-
-    // Next switching condition
-    } else if (selected === "minutes1") { 
-
-        // Switches to next input
-        selected = "seconds1"
-
-    
-    } else if (selected === "seconds1") {
-
-        // Switches to next input
-        selected = "hours2";
-
-    } else if (selected === "hours2") {
-
-        // Switches to next input
-        selected = "minutes2";
-
-    } else if (selected === "minutes2") {
-        // Switches to next input
-        selected = "seconds2";
-
-    // Next switching condition
-    } else if (selected === "seconds1") {
-
-        // Final switch to result
-        selected = "result";
-
-    // Compute and process operation result
-    } else { 
-
-        //Call the calc function
-        const result = calcResult(); 
-
-        // Display the result in the result div
-        document. getElementById('result').textContent = result;
-
-        // Resets switching
-        selected = "hours1"; 
-
-        // Sets result switching flag
-        resultFlag = true; 
-    }
-
-    // Reset condition
-    if (resultFlag) { 
-
-        //Clear inputs for next operation
-        document.querySelectorAll("input").forEach(input => input.value = "");
-
-        // Resets result switching flag
-        resultFlag = false
-    }
-});
 
 /** 
     Keyboard input event listeners 
 **/ 
 
-// Keyboard's btn event listener
-document.getElementById("btn0").addEventListener("click", function() {
 
-    // Adds num to curr input
-    document.getElementById(selected).value += "0"; 
+function addNumber(number) {
+    const input = document.getElementById(selected);
 
-});
+    input.value += number;
 
-// Keyboard's btn event listener
-document.getElementById("btn1").addEventListener("click", function() {
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+}
 
-    // Adds num to curr input
-    document.getElementById(selected).value += "1";
+document.addEventListener("keydown", (event) => {
 
-});
+    if (event.key >= "0" && event.key <= "9") {
+        event.preventDefault();
 
-// Keyboard's btn event listener
-document.getElementById("btn2").addEventListener("click", function() {
-
-    // Adds num to curr input
-    document.getElementById(selected).value += "2";
+        addNumber(event.key);
+    }
 
 });
 
-// Keyboard's btn event listener
-document.getElementById("btn3").addEventListener("click", function() {
-
-    // Adds num to curr input
-    document.getElementById(selected).value += "3";
-
-});
-
-// Keyboard's btn event listener
-document.getElementById("btn4").addEventListener("click", function() {
-
-    // Adds num to curr input
-    document.getElementById(selected).value += "4";
-
-});
-
-// Keyboard's btn event listener
-document.getElementById("btn5").addEventListener("click", function() {
-    
-    // Adds num to curr input
-    document.getElementById(selected).value += "5";
-
-});
-
-// Keyboard's btn event listener
-document.getElementById("btn6").addEventListener("click", function() {
-    
-    // Adds num to curr input
-    document.getElementById(selected).value += "6";
-
-});
-
-// Keyboard's btn event listener
-document.getElementById("btn7").addEventListener("click", function() {
-    
-    // Adds num to curr input
-    document.getElementById(selected).value += "7";
-
-});
-
-// Keyboard's btn event listener
-document.getElementById("btn8").addEventListener("click", function() {
-
-    // Adds num to curr input
-    document.getElementById(selected).value += "8";
-
-});
-
-// Keyboard's btn event listener
-document.getElementById("btn9").addEventListener("click", function() {
-
-    // Adds num to curr input
-    document.getElementById(selected).value += "9";
-
-});
+document.getElementById("btn0").addEventListener("click", () => addNumber("0"));
+document.getElementById("btn1").addEventListener("click", () => addNumber("1"));
+document.getElementById("btn2").addEventListener("click", () => addNumber("2"));
+document.getElementById("btn3").addEventListener("click", () => addNumber("3"));
+document.getElementById("btn4").addEventListener("click", () => addNumber("4"));
+document.getElementById("btn5").addEventListener("click", () => addNumber("5"));
+document.getElementById("btn6").addEventListener("click", () => addNumber("6"));
+document.getElementById("btn7").addEventListener("click", () => addNumber("7"));
+document.getElementById("btn8").addEventListener("click", () => addNumber("8"));
+document.getElementById("btn9").addEventListener("click", () => addNumber("9"));

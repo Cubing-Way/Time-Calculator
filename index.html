@@ -1,64 +1,325 @@
-<html>
-    <head>
-        <title>Time Calculator</title>
-        <style>
-            input {
-                width: 50px;
-            }
-        </style>
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Units Calculator</title>
 
-        <!-- First time input -->
-        <input id = "hours1"> <span> :</span>
-        <input id = "minutes1"> <span> :</span>
-        <input id = "seconds1">
+    <style>
+* {
+    box-sizing: border-box;
+}
 
-        <!-- Operation options -->
-        <select id = "operation">
-            <option value="sum">+</option>
-            <option value="diff">-</option>
-            <option value="mult">*</option>
-            <option value="div">/</option>
-        </select>
+body {
+    margin: 0;
+    min-height: 100vh;
 
-        <!-- Second time input -->
-        <input id = "hours2"> <span> :</span>
-        <input id = "minutes2"> <span> :</span>
-        <input id = "seconds2">
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        <!-- Result time calculated -->
-        <button id = "resultBtn">=</button>
-        <P id = "result"> </P>
+    font-family: "Segoe UI", Arial, sans-serif;
 
-        <!-- Keyboard -->
-        <div id = "keyboard">
+    background: #101114;
+    color: #e8e8e8;
+}
 
-            <!-- Num Inputs-->
-            <button id = "btn1">1</button>
-            <button id = "btn2">2</button>
-            <button id = "btn3">3</button>
-            <button id = "btn4">4</button>
-            <button id = "btn5">5</button>
-            <button id = "btn6">6</button>
-            <button id = "btn7">7</button>
-            <button id = "btn8">8</button>
-            <button id = "btn9">9</button>
-            <button id = "btn0">0</button>
+/* Main desktop window */
+.calculator {
+    width: 850px;
+    min-height: 480px;
 
-            <!-- Unit Inputs-->
-            <button id = "hour">hours</button>
-            <button id = "minute">minutes</button>
-            <button id = "second">seconds</button>
+    padding: 28px 35px;
 
-            <br> <!-- Skip a line-->
+    background: #1b1d21;
+    border: 1px solid #30343a;
+    border-radius: 10px;
 
-            <!-- Confirm button -->
-            <button id = "okBtn">Ok</button>
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Header */
+h1 {
+    margin: 0 0 28px;
+
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+
+    color: #f0f0f0;
+}
+
+/* Calculation row */
+.calculation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    padding: 25px 20px;
+
+    background: #15171a;
+    border: 1px solid #292c31;
+    border-radius: 8px;
+}
+
+/* Time input group */
+.time-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 7px 10px;
+
+    background: #202328;
+    border: 1px solid #34383f;
+    border-radius: 6px;
+}
+
+.time-input {
+    width: 70px;
+    height: 40px;
+
+    border: 1px solid #3a3e45;
+    border-radius: 4px;
+
+    background: #111316;
+    color: #f0f0f0;
+
+    text-align: center;
+
+    font-family: "Consolas", monospace;
+    font-size: 17px;
+
+    outline: none;
+
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.time-input:focus {
+    background: #171a1e;
+    border-color: #5876c9;
+}
+
+.time-input::placeholder {
+    color: #666b73;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 12px;
+}
+
+.separator {
+    color: #73777e;
+    font-size: 18px;
+}
+
+/* Operation */
+#operation {
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid #4a5e9b;
+    border-radius: 6px;
+
+    background: #344879;
+    color: white;
+
+    text-align: center;
+
+    font-size: 20px;
+    font-weight: 500;
+
+    cursor: pointer;
+    outline: none;
+}
+
+#operation:hover {
+    background: #3d5288;
+}
+
+#operation:active {
+    background: #2b3c67;
+}
+
+/* Result area */
+.result-container {
+    display: flex;
+    align-items: center;
+
+    margin-top: 25px;
+
+    gap: 15px;
+}
+
+#resultBtn {
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid #3f444c;
+    border-radius: 6px;
+
+    background: #292c31;
+    color: #e8e8e8;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+#resultBtn:hover {
+    background: #33373d;
+}
+
+#resultBtn:active {
+    background: #23262a;
+}
+
+/* Result display */
+#result {
+    flex: 1;
+
+    height: 48px;
+
+    margin: 0;
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+
+    background: #111316;
+    border: 1px solid #30343a;
+    border-radius: 6px;
+
+    color: #8fa7ff;
+
+    font-family: "Consolas", monospace;
+    font-size: 20px;
+}
+
+/* Keyboard */
+#keyboard {
+    width: 250px;
+
+    margin-top: 25px;
+    margin-left: auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+#keyboard button {
+    height: 45px;
+
+    border: 1px solid #363a40;
+    border-radius: 5px;
+
+    background: #25282d;
+    color: #dedede;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: background 0.1s;
+}
+
+#keyboard button:hover {
+    background: #30343a;
+}
+
+#keyboard button:active {
+    background: #1e2024;
+}
+
+/* OK button */
+#okBtn {
+    grid-column: 1 / -1;
+
+    background: #344879 !important;
+    border-color: #4a5e9b !important;
+}
+
+#okBtn:hover {
+    background: #3d5288 !important;
+}
+    </style>
+</head>
+
+<body>
+
+    <main class="calculator">
+
+        <h1>Time Units Calculator</h1>
+
+        <div class="calculation">
+
+            <!-- First time input -->
+            <div class="time-group">
+                <input class="time-input" id="hours1" placeholder="00 h">
+                <span class="separator">:</span>
+
+                <input class="time-input" id="minutes1" placeholder="00 min">
+                <span class="separator">:</span>
+
+                <input class="time-input" id="seconds1" placeholder="00 sec">
+            </div>
+
+            <!-- Operation -->
+            <select id="operation">
+                <option value="sum">+</option>
+                <option value="diff">−</option>
+                <option value="mult">×</option>
+                <option value="div">÷</option>
+            </select>
+
+            <!-- Second time input -->
+            <div class="time-group">
+                <input class="time-input" id="hours2" placeholder="00 h">
+                <span class="separator">:</span>
+
+                <input class="time-input" id="minutes2" placeholder="00 min">
+                <span class="separator">:</span>
+
+                <input class="time-input" id="seconds2" placeholder="00 sec">
+            </div>
+
         </div>
 
-        <!-- Scripts -->
-        <script src = "main.js"></script>
-        <script src = "keyboard.js"></script>
-    </body>
+        <!-- Result -->
+        <div class="result-container">
+            <button id="resultBtn">=</button>
+
+            <p id="result"></p>
+        </div>
+
+        <!-- Keyboard -->
+        <div id="keyboard">
+
+            <button id="btn1">1</button>
+            <button id="btn2">2</button>
+            <button id="btn3">3</button>
+
+            <button id="btn4">4</button>
+            <button id="btn5">5</button>
+            <button id="btn6">6</button>
+
+            <button id="btn7">7</button>
+            <button id="btn8">8</button>
+            <button id="btn9">9</button>
+
+            <button id="btn0">0</button>
+
+
+
+        </div>
+
+    </main>
+
+    <script src="main.js"></script>
+    <script src="keyboard.js"></script>
+
+</body>
 </html>
